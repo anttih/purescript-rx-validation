@@ -1,0 +1,12 @@
+{
+  "name": "purescript-rx-validation",
+  "description": "Higher-order form validation combinators for RxJs in PureScript",
+  "dependencies": {
+        "purescript-rx": "*",
+        "purescript-strings": "*",
+        "purescript-validation": "*",
+        "purescript-tuples": "*",
+        "rxjs": "2.3.18"
+  }
+}
+
