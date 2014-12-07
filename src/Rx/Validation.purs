@@ -23,6 +23,17 @@ instance applyValidator :: Apply (Validator eff a) where
     y <- (b val)
     return $ combineLatest (<*>) x y 
 
+instance bindValidator :: Bind (Validator eff a) where
+  (>>=) (Validator v) f = Validator \val -> do
+    x <- (v val)
+    switchLatest <$> (unwrap $ (resF val) <$> x) where
+      resF v = runV (\err -> return $ just $ invalid err)
+                    (\res -> runValidation (f res) (just v))
+
+-- short circuit validators
+(>>) :: forall eff a. Validator eff a a -> Validator eff a a -> Validator eff a a
+(>>) a b = a >>= \_ -> b
+
 check :: forall eff a b. (a -> Boolean) -> String -> Validator eff a a
 check f err = Validator $ return <<< just <<< check'
   where check' v = if f v then pure v else invalid [err]

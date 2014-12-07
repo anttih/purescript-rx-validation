@@ -21,12 +21,16 @@
 
     instance applyValidator :: Apply (Validator eff a)
 
+    instance bindValidator :: Bind (Validator eff a)
+
     instance functorValidation :: Functor Validation
 
     instance functorValidator :: Functor (Validator eff a)
 
 
 ### Values
+
+    (>>) :: forall eff a. Validator eff a a -> Validator eff a a -> Validator eff a a
 
     check :: forall eff a b. (a -> Boolean) -> String -> Validator eff a a
 
