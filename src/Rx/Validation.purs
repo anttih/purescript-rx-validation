@@ -31,7 +31,7 @@ instance bindValidator :: Bind (Validator eff a) where
                     (\res -> runValidation (f res) (just v))
 
 -- short circuit validators
-(>>) :: forall eff a. Validator eff a a -> Validator eff a a -> Validator eff a a
+(>>) :: forall m a b. (Bind m) => m a -> m b -> m b
 (>>) a b = a >>= \_ -> b
 
 check :: forall eff a b. (a -> Boolean) -> String -> Validator eff a a
