@@ -26,18 +26,12 @@ instance applyValidator :: Apply (Validator eff a) where
 instance applicativeValidator :: Applicative (Validator eff a) where
   pure x = Validator \_ -> return $ return $ pure x
 
-instance bindValidator :: Bind (Validator eff a) where
-  (>>=) (Validator v) f = Validator \val -> do
-    x <- (v val)
-    switchLatest <$> (unwrap $ (resF val) <$> x) where
-      resF v = runV (\err -> return $ just $ invalid err)
-                    (\res -> runValidation (f res) (just v))
-
-instance monadValidator :: Monad (Validator eff a)
-
--- short circuit validators
-(>>) :: forall m a b. (Bind m) => m a -> m b -> m b
-(>>) a b = a >>= \_ -> b
+(&>) :: forall eff a b. Validator eff a b -> Validator eff a b -> Validator eff a b
+(&>) (Validator v1) (Validator v2) = Validator \val ->
+  let resF = runV (return <<< return <<< invalid) (\_ -> v2 val)
+  in do
+    x <- (v1 val)
+    switchLatest <$> (unwrap $ resF <$> x)
 
 check :: forall eff a b. (a -> Boolean) -> String -> Validator eff a a
 check f err = Validator $ return <<< just <<< check'
