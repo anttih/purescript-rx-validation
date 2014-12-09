@@ -17,11 +17,11 @@
 
     instance applicativeValidation :: Applicative Validation
 
+    instance applicativeValidator :: Applicative (Validator eff a)
+
     instance applyValidation :: Apply Validation
 
     instance applyValidator :: Apply (Validator eff a)
-
-    instance bindValidator :: Bind (Validator eff a)
 
     instance functorValidation :: Functor Validation
 
@@ -30,7 +30,7 @@
 
 ### Values
 
-    (>>) :: forall eff a. Validator eff a a -> Validator eff a a -> Validator eff a a
+    (&>) :: forall eff a b. Validator eff a b -> Validator eff a b -> Validator eff a b
 
     check :: forall eff a b. (a -> Boolean) -> String -> Validator eff a a
 
