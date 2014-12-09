@@ -26,6 +26,7 @@ Usage: ./build.sh <task>
 Available tasks:
 
     psc-make         Compile .purs sources to CommonJS modules
+    psc-docs         Write docs to README.md
     dot-psci         Add modules to .psci
     help             Show usage
 USAGE
