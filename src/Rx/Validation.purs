@@ -26,12 +26,19 @@ instance applyValidator :: Apply (Validator eff a) where
 instance applicativeValidator :: Applicative (Validator eff a) where
   pure x = Validator \_ -> return $ return $ pure x
 
-(&>) :: forall eff a b. Validator eff a b -> Validator eff a b -> Validator eff a b
-(&>) (Validator v1) (Validator v2) = Validator \val ->
-  let resF = runV (return <<< return <<< invalid) (\_ -> v2 val)
-  in do
+instance semigroupoidValidator :: Semigroupoid (Validator eff) where
+  (<<<) (Validator v2) (Validator v1) = Validator \val -> do
     x <- (v1 val)
     switchLatest <$> (unwrap $ resF <$> x)
+      where resF = runV (return <<< just <<< invalid) v2
+
+infixr 3 &>
+(&>) :: forall a b c d. (Semigroupoid a) => a b c -> a c d -> a b d
+(&>) = (>>>)
+
+infixl 3 <&
+(<&) :: forall a b c d. (Semigroupoid a) => a c d -> a b c -> a b d
+(<&) = (<<<)
 
 check :: forall eff a b. (a -> Boolean) -> String -> Validator eff a a
 check f err = Validator $ return <<< just <<< check'

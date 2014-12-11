@@ -27,10 +27,14 @@
 
     instance functorValidator :: Functor (Validator eff a)
 
+    instance semigroupoidValidator :: Semigroupoid (Validator eff)
+
 
 ### Values
 
-    (&>) :: forall eff a b. Validator eff a b -> Validator eff a b -> Validator eff a b
+    (&>) :: forall a b c d. (Semigroupoid a) => a b c -> a c d -> a b d
+
+    (<&) :: forall a b c d. (Semigroupoid a) => a c d -> a b c -> a b d
 
     check :: forall eff a b. (a -> Boolean) -> String -> Validator eff a a
 
