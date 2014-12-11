@@ -56,5 +56,7 @@
 
     subscribeValidation :: forall eff a. Validation a -> (Result a -> Eff eff Unit) -> Eff eff Unit
 
+    while :: forall a. Observable Boolean -> Validation a -> Validation (Maybe a)
+
 
 

@@ -6,6 +6,7 @@
         "purescript-strings": "*",
         "purescript-validation": "*",
         "purescript-tuples": "*",
+        "purescript-maybe": "*",
         "rxjs": "2.3.18"
   }
 }

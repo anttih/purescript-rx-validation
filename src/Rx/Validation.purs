@@ -6,6 +6,7 @@ import Data.Tuple
 import qualified Data.String as S
 import qualified Data.String.Regex as R
 import Rx.Observable
+import Data.Maybe
 
 type Result = V [String] 
 
@@ -92,4 +93,8 @@ instance applicativeValidation :: Applicative Validation where
 
 subscribeValidation :: forall eff a. Validation a -> (Result a -> Eff eff Unit) -> Eff eff Unit
 subscribeValidation (Validation s) f = subscribe s f
+
+while :: forall a. Observable Boolean -> Validation a -> Validation (Maybe a)
+while ob (Validation v) = Validation $ combineLatest combine ob v
+  where combine x y = if x then Just <$> y else pure Nothing
 
