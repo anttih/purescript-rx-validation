@@ -32,6 +32,9 @@ instance semigroupoidValidator :: Semigroupoid (Validator eff) where
     switchLatest <$> (unwrap $ resF <$> x)
       where resF = runV (return <<< just <<< invalid) v2
 
+instance categoryValidator :: Category (Validator eff) where
+  id = Validator (return <<< return <<< pure)
+
 infixr 3 &>
 (&>) :: forall a b c d. (Semigroupoid a) => a b c -> a c d -> a b d
 (&>) = (>>>)

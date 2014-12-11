@@ -23,6 +23,8 @@
 
     instance applyValidator :: Apply (Validator eff a)
 
+    instance categoryValidator :: Category (Validator eff)
+
     instance functorValidation :: Functor Validation
 
     instance functorValidator :: Functor (Validator eff a)
