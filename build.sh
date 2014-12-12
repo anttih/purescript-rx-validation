@@ -14,7 +14,7 @@ case "$cmd" in
     purs_files | xargs psc-make
   ;;
   psc-docs)
-    psc-docs src/Rx/Validation.purs > README.md
+    psc-docs src/Rx/Validation.purs > API.md
   ;;
   dot-psci)
     purs_files | sed 's/^/:m /' > .psci
