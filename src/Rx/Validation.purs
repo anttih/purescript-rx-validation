@@ -46,9 +46,8 @@ check f err = Validator $ return <<< just <<< check'
   where check' v = if f v then pure v else invalid [err]
 
 required :: forall eff. Validator eff String String
-required = check required' "required"
-  where required' "" = false
-        required' v  = true
+required = check isEmpty "required"
+  where isEmpty v = S.length (S.trim v) > 0
 
 onlyNumbers :: forall eff. Validator eff String String
 onlyNumbers = check isNumbers "format"
