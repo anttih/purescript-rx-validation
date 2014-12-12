@@ -12,9 +12,6 @@ type Result = V [String]
 
 newtype Validator eff a b = Validator (a -> (Eff eff (Observable (Result b))))
 
-runValidation :: forall eff a b. Validator eff a b -> Observable a -> (Eff eff (Observable (Result b)))
-runValidation (Validator v) s = switchLatest <$> (unwrap $ v <$> s)
-
 instance functorValidator :: Functor (Validator eff a) where
   (<$>) f (Validator v) = Validator $ \val -> ((<$>) ((<$>) f)) <$> v val
 
@@ -90,6 +87,9 @@ instance applyValidation :: Apply Validation where
 
 instance applicativeValidation :: Applicative Validation where
   pure = Validation <<< just <<< pure
+
+runValidator :: forall eff a b. Validator eff a b -> Observable a -> (Eff eff (Validation b))
+runValidator (Validator v) s = (Validation <<< switchLatest) <$> (unwrap $ v <$> s)
 
 subscribeValidation :: forall eff a. Validation a -> (Result a -> Eff eff Unit) -> Eff eff Unit
 subscribeValidation (Validation s) f = subscribe s f
