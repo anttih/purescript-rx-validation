@@ -45,9 +45,10 @@ zipCode = required &> minLength 5 *> maxLength 10 *> onlyNumbers
 These validators didn't do any effects so why is there `Eff` in the type? Well,
 Ajax for one. You might also want to do other DOM effects in the validators,
 such as show progress. I'd like to replace the `Eff` and `Observable` with a
-single type variable (turning it into a Kleisli arrow, I think) but so far
-haven't been able to do so. This package should in the best case work as well
-with promises or continuations. Any suggestions on this is more than welcome.
+single type variable (turning it into something that resembles a Kleisli arrow)
+but so far haven't been able to do so. This package should in the best case
+work as well with promises or continuations. Any suggestions on this is more
+than welcome.
 
 You can run the validator with an `Observable` of input values and get an
 `Observable` of results:
