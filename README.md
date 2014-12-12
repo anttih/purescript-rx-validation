@@ -10,8 +10,8 @@ around a function from the input value to the validation result `Observable`:
 newtype Validator eff a b = Validator (a -> (Eff eff (Observable (Result b))))
 ```
 
-This type is a `Semigroup` and an `Applicative`, so you can compose:
-
+This type is an instance of `Semigroup` and `Applicative`, so you can combine
+several validators to create new ones:
 
 ```haskell
 zipCode :: forall eff a. Validator eff String String
