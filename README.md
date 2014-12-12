@@ -1,7 +1,6 @@
-Applicative style form validation with PureScript and RxJs
-----------------------------------------------------------
+### Applicative style form validation with PureScript and RxJs
 
-[Module documentation](/anttih/purescript-rx-validation/blob/master/API.md)
+[Module documentation](https://github.com/anttih/purescript-rx-validation/blob/master/API.md)
 
 This package introduces two datatypes for working with form validation.
 `Validator` is for validating a single form field. It is a newtype wrapper
